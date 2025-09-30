@@ -8,5 +8,21 @@ datasource db {
 }
 
 model User {
-  id             Int      @id @default(autoincrement())
+  id        Int      @id @default(autoincrement())
+  email     String   @unique
+  password  String
+  movies    Movie[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Movie {
+  id          Int      @id @default(autoincrement())
+  user        User     @relation(fields: [userId], references: [id])
+  userId      Int
+  title       String   @db.VarChar(120)
+  description String?  @db.VarChar(800)
+  publishedOn String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 }
