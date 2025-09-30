@@ -17,8 +17,17 @@ const theme = createTheme({
     ],
   },
   primaryColor: "primary",
-  primaryShade: 6
-  
+  primaryShade: 6,
+
+  // syncing mantine's breakpoints with tailwind
+  breakpoints: {
+    xs: "36rem",
+    sm: "40rem",
+    md: "48rem",
+    lg: "64rem",
+    xl: "80rem",
+    "2xl": "96rem",
+  },
 });
 
 export default theme;

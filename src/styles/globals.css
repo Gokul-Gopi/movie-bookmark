@@ -10,10 +10,9 @@
   --color-card: #092c39;
   --color-error: #eb5757;
   --font-sans: "Montserrat", sans-serif;
+  --breakpoint-xs: 36rem;
 }
 
 body {
-  background: var(--color-background);
-  color: var(--color-foreground);
   font-family: var(--font-sans);
 }
