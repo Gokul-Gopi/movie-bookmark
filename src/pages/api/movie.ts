@@ -1,9 +1,7 @@
 import type { NextApiResponse } from "next";
-import { getErrorMessage, validateBody } from "@/utils/helpers";
+import { getErrorMessage, uploadImage, validateBody } from "@/utils/helpers";
 import { addMovieSchema, editMovieSchema } from "@/utils/validationSchema";
 import formidable from "formidable";
-import fs from "fs/promises";
-import supabase from "@/utils/supabase";
 import { prisma } from "@/utils/prisma";
 import authRoute, { AuthenticatedRequest } from "@/utils/authRoute";
 
@@ -32,32 +30,14 @@ const handleAddMovie = async (
     );
 
     if (poster) {
-      const fileBuffer = await fs.readFile(poster?.filepath);
-      const fileExt = poster.originalFilename?.split(".").pop() ?? "jpg";
-      const filePath = `posters/${crypto.randomUUID()}.${fileExt}`;
-
-      const { error } = await supabase.storage
-        .from("posters")
-        .upload(filePath, fileBuffer, {
-          contentType: poster.mimetype ?? "image/jpeg",
-          upsert: true,
-        });
-
-      if (error) {
-        console.log({ error });
-        throw new Error(
-          "Unable to upload file at the moment. Please try again later"
-        );
-      }
-
-      const { data } = supabase.storage.from("posters").getPublicUrl(filePath);
+      const url = await uploadImage(poster);
 
       const movie = await prisma.movie.create({
         data: {
           title,
           description,
           publishedOn,
-          poster: data.publicUrl,
+          poster: url as string,
           userId: req.user.id,
         },
       });
@@ -69,7 +49,6 @@ const handleAddMovie = async (
       .status(400)
       .json({ message: "Something went wronog. Please try again later" });
   } catch (error) {
-    console.log({ error });
     return res.status(400).json({ message: getErrorMessage(error) });
   }
 };
@@ -98,27 +77,7 @@ const handleEditMovie = async (
     let updatedPosterUrl: string | null = null;
 
     if (updatedPostedFile) {
-      const fileBuffer = await fs.readFile(updatedPostedFile?.filepath);
-      const fileExt =
-        updatedPostedFile.originalFilename?.split(".").pop() ?? "jpg";
-      const filePath = `posters/${crypto.randomUUID()}.${fileExt}`;
-
-      const { error } = await supabase.storage
-        .from("posters")
-        .upload(filePath, fileBuffer, {
-          contentType: updatedPostedFile.mimetype ?? "image/jpeg",
-          upsert: true,
-        });
-
-      if (error) {
-        console.log({ error });
-        throw new Error(
-          "Unable to upload file at the moment. Please try again later"
-        );
-      }
-
-      const { data } = supabase.storage.from("posters").getPublicUrl(filePath);
-      updatedPosterUrl = data.publicUrl;
+      updatedPosterUrl = await uploadImage(updatedPostedFile);
     }
 
     const movie = await prisma.movie.update({
@@ -132,7 +91,6 @@ const handleEditMovie = async (
       .status(201)
       .json({ data: movie, message: "Movie updated successfully" });
   } catch (error) {
-    console.log({ error });
     return res.status(400).json({ message: getErrorMessage(error) });
   }
 };
@@ -151,7 +109,6 @@ const handleGetAllMovies = async (
     });
     return res.status(200).json(movies);
   } catch (error) {
-    console.log({ error });
     return res.status(400).json({ message: getErrorMessage(error) });
   }
 };
@@ -171,12 +128,11 @@ const handleDeleteMovie = async (
     });
     return res.status(200).json({ message: "Movie deleted successfully" });
   } catch (error) {
-    console.log({ error });
     return res.status(400).json({ message: getErrorMessage(error) });
   }
 };
 
-const addMovie = (req: AuthenticatedRequest, res: NextApiResponse) => {
+const movie = (req: AuthenticatedRequest, res: NextApiResponse) => {
   switch (req.method) {
     case "GET":
       return handleGetAllMovies(req, res);
@@ -192,4 +148,4 @@ const addMovie = (req: AuthenticatedRequest, res: NextApiResponse) => {
   }
 };
 
-export default authRoute(addMovie);
+export default authRoute(movie);

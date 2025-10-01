@@ -30,7 +30,6 @@ export const uploadImage = async (file: formidable.File) => {
     });
 
   if (error) {
-    console.log({ error });
     throw new Error(
       "Unable to upload file at the moment. Please try again later"
     );
