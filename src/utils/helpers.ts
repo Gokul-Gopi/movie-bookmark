@@ -5,10 +5,9 @@ export const getErrorMessage = (error: any) => {
   return error?.message ?? "Something went wrong, Please try again later";
 };
 
-export const validateBody = <T extends z.ZodObject>(
+export const validateBody = <T extends z.ZodTypeAny>(
   schema: T,
-  body: z.infer<T>
-) => {
-  schema.parse(body);
-  return body;
+  body: unknown
+): z.infer<T> => {
+  return schema.parse(body);
 };
