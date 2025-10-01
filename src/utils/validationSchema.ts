@@ -1,3 +1,4 @@
+import formidable from "formidable";
 import { z } from "zod";
 
 export const signupSchema = z.object({
@@ -11,4 +12,18 @@ export const signupSchema = z.object({
 export const signinSchema = z.object({
   email: z.email("Email is required"),
   password: z.string("Password is required"),
+});
+
+export const addMovieSchema = z.object({
+  title: z.string("Title is required").min(1).max(120),
+  publishedOn: z.string("Published year is required").max(800),
+  description: z.string().optional(),
+  poster: z.custom<formidable.File>(),
+});
+
+export const editMovieSchema = z.object({
+  title: z.string("Title is required").min(1).max(120).optional(),
+  publishedOn: z.string("Published year is required").max(800).optional(),
+  description: z.string().optional(),
+  poster: z.custom<formidable.File | string>().optional(),
 });

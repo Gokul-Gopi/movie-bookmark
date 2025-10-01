@@ -18,6 +18,7 @@ model Movie {
   title       String   @db.VarChar(120)
   description String?  @db.VarChar(800)
   publishedOn String
+  poster      String
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
   user        Profile  @relation(fields: [userId], references: [id])
