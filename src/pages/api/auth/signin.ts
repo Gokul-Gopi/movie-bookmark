@@ -4,7 +4,7 @@ import { signinSchema } from "@/utils/validationSchema";
 import supabase from "@/utils/supabase";
 import { getErrorMessage, validateBody } from "@/utils/helpers";
 
-export default async function login(req: NextApiRequest, res: NextApiResponse) {
+const login = async (req: NextApiRequest, res: NextApiResponse) => {
   try {
     if (req.method !== "POST") throw new Error("Method not allowed");
 
@@ -34,4 +34,6 @@ export default async function login(req: NextApiRequest, res: NextApiResponse) {
     console.log({ error });
     return res.status(400).json({ message: getErrorMessage(error) });
   }
-}
+};
+
+export default login;
