@@ -1,14 +1,9 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { serialize } from "cookie";
-import { createClient } from "@supabase/supabase-js";
 import { prisma } from "@/utils/prisma";
 import { signupSchema } from "@/utils/validationSchema";
 import { getErrorMessage, validateBody } from "@/utils/helpers";
-
-const supabase = createClient(
-  process.env.SUPABASE_URL as string,
-  process.env.SUPABASE_SERVICE_ROLE_KEY as string
-);
+import supabase from "@/utils/supabase";
 
 export default async function signup(
   req: NextApiRequest,
