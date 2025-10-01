@@ -4,9 +4,21 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
+  url      = env("DIRECT_URL")
 }
 
-model User {
-  id             Int      @id @default(autoincrement())
+model Profile {
+  id     String  @id @db.Uuid
+  movies Movie[]
+}
+
+model Movie {
+  id          Int      @id @default(autoincrement())
+  userId      String   @db.Uuid
+  title       String   @db.VarChar(120)
+  description String?  @db.VarChar(800)
+  publishedOn String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  user        Profile  @relation(fields: [userId], references: [id])
 }
