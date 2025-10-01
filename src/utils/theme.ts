@@ -1,4 +1,4 @@
-import { createTheme } from "@mantine/core";
+import { Button, createTheme } from "@mantine/core";
 
 const theme = createTheme({
   fontFamily: "var(--font-sans)",
@@ -27,6 +27,14 @@ const theme = createTheme({
     lg: "64rem",
     xl: "80rem",
     "2xl": "96rem",
+  },
+
+  components: {
+    Button: Button.extend({
+      defaultProps: {
+        className: "rounded-[0.625rem]",
+      },
+    }),
   },
 });
 
