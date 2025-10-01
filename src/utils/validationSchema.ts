@@ -20,3 +20,10 @@ export const addMovieSchema = z.object({
   description: z.string().optional(),
   poster: z.custom<formidable.File>(),
 });
+
+export const editMovieSchema = z.object({
+  title: z.string("Title is required").min(1).max(120).optional(),
+  publishedOn: z.string("Published year is required").max(800).optional(),
+  description: z.string().optional(),
+  poster: z.custom<formidable.File | string>().optional(),
+});

@@ -1,4 +1,4 @@
-import type { NextApiHandler, NextApiRequest, NextApiResponse } from "next";
+import type { NextApiRequest, NextApiResponse } from "next";
 import supabase from "./supabase";
 
 export interface AuthenticatedRequest extends NextApiRequest {
@@ -6,7 +6,10 @@ export interface AuthenticatedRequest extends NextApiRequest {
 }
 
 const authRoute = (
-  handler: (req: AuthenticatedRequest, res: NextApiResponse) => Promise<void>
+  handler: (
+    req: AuthenticatedRequest,
+    res: NextApiResponse
+  ) => Promise<void> | NextApiResponse
 ) => {
   return async (req: AuthenticatedRequest, res: NextApiResponse) => {
     const {
