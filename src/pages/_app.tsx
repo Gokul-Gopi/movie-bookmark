@@ -3,13 +3,15 @@ import "@mantine/core/styles.css";
 import "@mantine/dropzone/styles.css";
 
 import { MantineProvider } from "@mantine/core";
-import type { AppProps } from "next/app";
 import theme from "@/utils/theme";
+import { AppPropsWithLayout } from "@/layouts/AppLayout";
 
-export default function App({ Component, pageProps }: AppProps) {
+export default function App({ Component, pageProps }: AppPropsWithLayout) {
+  const getLayout = Component.getLayout ?? ((page) => page);
+
   return (
     <MantineProvider theme={theme}>
-      <Component {...pageProps} />
+      {getLayout(<Component {...pageProps} />)}
     </MantineProvider>
   );
 }

@@ -1,11 +1,11 @@
-import { Button } from "@mantine/core";
+import AppLayout, { NextPageWithLayout } from "@/layouts/AppLayout";
 
-const page = () => {
-  return (
-    <div className="font-medium">
-      <Button>Home</Button>
-    </div>
-  );
+const Page: NextPageWithLayout = () => {
+  return <div>Movie bookmark</div>;
 };
 
-export default page;
+export default Page;
+
+Page.getLayout = function getLayout(page) {
+  return <AppLayout>{page}</AppLayout>;
+};
