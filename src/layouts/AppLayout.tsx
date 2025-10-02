@@ -7,7 +7,7 @@ interface IAppLayout {
 
 const AppLayout = ({ children }: IAppLayout) => {
   return (
-    <main className="bg-background min-h-dvh">
+    <main className="flex justify-center items-center bg-background min-h-dvh">
       {children}
       <Image
         src={bgImage}

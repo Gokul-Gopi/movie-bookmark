@@ -21,10 +21,13 @@ const PasswordInput = ({ ...props }: PasswordInputProps) => {
       classNames={{
         ...classes,
         input: cn(
-          "rounded-[0.625rem] bg-input border-none text-white placeholder:text-white",
+          "rounded-[0.625rem] bg-input border-none text-white h-[2.813rem]",
           classes?.input
         ),
-        innerInput: cn("pl-5", classes?.innerInput),
+        innerInput: cn(
+          "pl-5 placeholder:text-white h-[2.813rem]",
+          classes?.innerInput
+        ),
         section: cn("pr-5", classes?.section),
       }}
     />

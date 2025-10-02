@@ -21,7 +21,7 @@ const TextInput = ({ ...props }: TextInputProps) => {
       classNames={{
         ...classes,
         input: cn(
-          "rounded-[0.625rem] bg-input border-none text-white placeholder:text-white px-5",
+          "rounded-[0.625rem] bg-input border-none text-white placeholder:text-white px-5 h-[2.813rem]",
           classes?.input
         ),
       }}
