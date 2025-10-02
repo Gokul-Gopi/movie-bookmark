@@ -1,10 +1,11 @@
-import { ActionIcon, Button, Pagination, ThemeIcon } from "@mantine/core";
+import { ActionIcon, Button, Pagination } from "@mantine/core";
 import Head from "next/head";
 import Link from "next/link";
 import MovieCard from "@/components/MovieCard";
 import { Icon } from "@iconify/react";
 import { useRouter } from "next/router";
-import { Span } from "next/dist/trace";
+import { useState } from "react";
+import ConfirmationModal from "@/components/ConfirmationModal";
 
 const movies = [
   {
@@ -83,6 +84,7 @@ const movies = [
 
 const Page = () => {
   const router = useRouter();
+  const [logoutModalOpen, setLogoutModalOpen] = useState(false);
 
   const onLogout = () => {
     router.push("/signin");
@@ -109,7 +111,7 @@ const Page = () => {
         </div>
 
         <Button
-          onClick={onLogout}
+          onClick={() => setLogoutModalOpen(true)}
           classNames={{ label: "text-base", section: "text-[1.8rem] ml-3" }}
           rightSection={<Icon icon="tabler:logout" />}
           variant="transparent"
@@ -141,6 +143,13 @@ const Page = () => {
           </Button>
         </div>
       )}
+
+      <ConfirmationModal
+        title="Are you sure you want to logout?"
+        opened={logoutModalOpen}
+        onClose={() => setLogoutModalOpen(false)}
+        onConfirm={onLogout}
+      />
 
       <Pagination
         value={2}

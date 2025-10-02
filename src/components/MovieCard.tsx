@@ -1,6 +1,8 @@
 import { ActionIcon, Button, Menu } from "@mantine/core";
 import Image from "next/image";
 import { Icon } from "@iconify/react";
+import { useState } from "react";
+import ConfirmationModal from "./ConfirmationModal";
 
 interface IMovieCard {
   title: string;
@@ -10,6 +12,8 @@ interface IMovieCard {
 }
 
 const MovieCard = ({ title, poster, publishedOn }: IMovieCard) => {
+  const [deleteModalOpen, setDeleteModalOpen] = useState(false);
+
   return (
     <div className="px-2 pt-2 pb-4 bg-card rounded-xl group max-w-[17.625rem]">
       <div className="relative min-h-[25rem]">
@@ -53,6 +57,7 @@ const MovieCard = ({ title, poster, publishedOn }: IMovieCard) => {
             </Menu.Item>
             <Menu.Divider />
             <Menu.Item
+              onClick={() => setDeleteModalOpen(true)}
               color="red"
               leftSection={<Icon icon="material-symbols:delete-outline" />}
             >
@@ -67,6 +72,13 @@ const MovieCard = ({ title, poster, publishedOn }: IMovieCard) => {
 
         <span>{publishedOn}</span>
       </div>
+
+      <ConfirmationModal
+        title="Are you sure you want to delete this movie?"
+        opened={deleteModalOpen}
+        onClose={() => setDeleteModalOpen(false)}
+        onConfirm={() => setDeleteModalOpen(false)}
+      />
     </div>
   );
 };
