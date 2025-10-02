@@ -1,5 +1,5 @@
-import PasswordInput from "@/components/form/PasswordInput";
-import TextInput from "@/components/form/TextInput";
+import PasswordInput from "@/components/form/ControlledPasswordInput";
+import TextInput from "@/components/form/ControlledTextInput";
 import { signupSchema } from "@/utils/validationSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@mantine/core";

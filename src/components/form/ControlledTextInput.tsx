@@ -4,7 +4,7 @@ import {
   TextInputProps as MantineTextInputProps,
 } from "@mantine/core";
 import type { StylesRecord, TextInputFactory } from "@mantine/core";
-import { useController, useFormContext } from "react-hook-form";
+import { useController } from "react-hook-form";
 
 interface TextInputProps extends MantineTextInputProps {
   name: string;
