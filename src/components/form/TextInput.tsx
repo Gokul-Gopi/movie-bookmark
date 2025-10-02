@@ -4,12 +4,18 @@ import {
   TextInputProps as MantineTextInputProps,
 } from "@mantine/core";
 import type { StylesRecord, TextInputFactory } from "@mantine/core";
+import { useController, useFormContext } from "react-hook-form";
 
 interface TextInputProps extends MantineTextInputProps {
   name: string;
 }
 
-const TextInput = ({ ...props }: TextInputProps) => {
+const TextInput = ({ name, ...props }: TextInputProps) => {
+  const {
+    field,
+    fieldState: { error },
+  } = useController({ name });
+
   const classes = props.classNames as StylesRecord<
     TextInputFactory["stylesNames"],
     string
@@ -18,12 +24,15 @@ const TextInput = ({ ...props }: TextInputProps) => {
   return (
     <MantineTextInput
       {...props}
+      {...field}
+      error={error?.message}
       classNames={{
         ...classes,
         input: cn(
           "rounded-[0.625rem] bg-input border-none text-white placeholder:text-white px-5 h-[2.813rem]",
           classes?.input
         ),
+        error: cn("pl-1", classes?.error),
       }}
     />
   );

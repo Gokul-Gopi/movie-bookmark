@@ -4,20 +4,28 @@ import {
   PasswordInputProps as MantinePasswordInputProps,
 } from "@mantine/core";
 import type { StylesRecord, PasswordInputFactory } from "@mantine/core";
+import { useController } from "react-hook-form";
 
 interface PasswordInputProps extends MantinePasswordInputProps {
   name: string;
 }
 
-const PasswordInput = ({ ...props }: PasswordInputProps) => {
+const PasswordInput = ({ name, ...props }: PasswordInputProps) => {
   const classes = props.classNames as StylesRecord<
     PasswordInputFactory["stylesNames"],
     string
   >;
 
+  const {
+    field,
+    fieldState: { error },
+  } = useController({ name });
+
   return (
     <MantinePasswordInput
       {...props}
+      {...field}
+      error={error?.message}
       classNames={{
         ...classes,
         input: cn(
@@ -29,6 +37,7 @@ const PasswordInput = ({ ...props }: PasswordInputProps) => {
           classes?.innerInput
         ),
         section: cn("pr-5", classes?.section),
+        error: cn("pl-1", classes?.error),
       }}
     />
   );
