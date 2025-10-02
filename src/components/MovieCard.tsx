@@ -11,8 +11,8 @@ interface IMovieCard {
 
 const MovieCard = ({ title, poster, publishedOn }: IMovieCard) => {
   return (
-    <div className="px-2 pt-2 pb-4 bg-card rounded-xl group">
-      <div className="relative min-h-[31.5rem]">
+    <div className="px-2 pt-2 pb-4 bg-card rounded-xl group max-w-[17.625rem]">
+      <div className="relative min-h-[25rem]">
         <Image src={poster} alt="" fill={true} className="rounded-xl" />
 
         <div className="absolute top-0 left-0 right-0 bottom-0 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-gradient-to-t from-black/50 to-transparent" />
@@ -27,7 +27,7 @@ const MovieCard = ({ title, poster, publishedOn }: IMovieCard) => {
       </div>
 
       <div className="flex flex-col text-white px-2">
-        <div className="flex justify-between items-center">
+        <div className="flex justify-between items-center gap-2">
           <span className="my-4 font-medium text-xl truncate">{title}</span>
 
           <div className="hidden group-hover:flex gap-2">

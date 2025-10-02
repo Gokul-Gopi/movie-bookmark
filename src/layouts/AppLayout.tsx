@@ -7,13 +7,12 @@ interface IAppLayout {
 
 const AppLayout = ({ children }: IAppLayout) => {
   return (
-    <main className="flex justify-center items-center bg-background min-h-dvh">
-      {children}
-      <Image
-        src={bgImage}
-        alt=""
-        className="absolute bottom-0 left-0 right-0 w-full"
-      />
+    <main className="grid grid-rows-[1fr_auto] bg-background min-h-dvh">
+      <div className="flex flex-col justify-center items-center">
+        {children}
+      </div>
+
+      <Image src={bgImage} alt="" className="w-full mt-auto" />
     </main>
   );
 };
