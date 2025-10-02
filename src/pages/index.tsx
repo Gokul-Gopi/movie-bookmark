@@ -1,11 +1,5 @@
-import { Button } from "@mantine/core";
-
-const page = () => {
-  return (
-    <div className="font-medium">
-      <Button>Home</Button>
-    </div>
-  );
+const Page = () => {
+  return <div>Hello</div>;
 };
 
-export default page;
+export default Page;
