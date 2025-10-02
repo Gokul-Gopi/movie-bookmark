@@ -4,14 +4,20 @@ import { signupSchema } from "@/utils/validationSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@mantine/core";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import { FormProvider, useForm } from "react-hook-form";
 import { z } from "zod";
 
 const Page = () => {
+  const router = useRouter();
+
   const form = useForm<z.infer<typeof signupSchema>>({
     resolver: zodResolver(signupSchema),
   });
-  const onSubmit = form.handleSubmit((data) => console.log(data));
+
+  const onSubmit = form.handleSubmit((_data) => {
+    router.push("/");
+  });
 
   return (
     <div>
