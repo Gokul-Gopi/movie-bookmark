@@ -1,9 +1,10 @@
-import { ActionIcon, Button, ThemeIcon } from "@mantine/core";
+import { ActionIcon, Button, Pagination, ThemeIcon } from "@mantine/core";
 import Head from "next/head";
 import Link from "next/link";
 import MovieCard from "@/components/MovieCard";
 import { Icon } from "@iconify/react";
 import { useRouter } from "next/router";
+import { Span } from "next/dist/trace";
 
 const movies = [
   {
@@ -140,6 +141,18 @@ const Page = () => {
           </Button>
         </div>
       )}
+
+      <Pagination
+        value={2}
+        total={5}
+        classNames={{
+          root: "my-40",
+          control:
+            "w-auto text-white bg-card font-bold border-none first:bg-transparent last:bg-transparent active:bg-white data-[active=true]:bg-primary active:text-card",
+        }}
+        previousIcon={() => <span className="font-bold px-2">Prev</span>}
+        nextIcon={() => <span className="font-bold px-2">Next</span>}
+      />
     </>
   );
 };
