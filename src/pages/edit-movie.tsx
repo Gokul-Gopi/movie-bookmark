@@ -1,8 +1,15 @@
 import { useMovie } from "@/api/queries/movie.queries";
 import AddEditMovieForm from "@/components/pages/add-movie/AddEditMovieForm";
+import { withPageAuth } from "@/utils/withPageAuth";
 import { Loader } from "@mantine/core";
 import Head from "next/head";
 import { useRouter } from "next/router";
+
+export const getServerSideProps = withPageAuth(async () => {
+  return {
+    props: {},
+  };
+});
 
 const Page = () => {
   const router = useRouter();

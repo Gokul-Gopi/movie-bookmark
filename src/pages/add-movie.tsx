@@ -1,5 +1,12 @@
 import AddEditMovieForm from "@/components/pages/add-movie/AddEditMovieForm";
+import { withPageAuth } from "@/utils/withPageAuth";
 import Head from "next/head";
+
+export const getServerSideProps = withPageAuth(async () => {
+  return {
+    props: {},
+  };
+});
 
 const Page = () => {
   return (
