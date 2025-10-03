@@ -2,11 +2,13 @@ import { Button, Modal, ModalProps } from "@mantine/core";
 
 interface IConfirmationModal extends ModalProps {
   onConfirm: () => void;
+  loading?: boolean;
 }
 
 const ConfirmationModal = ({
   onClose,
   onConfirm,
+  loading,
   ...props
 }: IConfirmationModal) => {
   return (
@@ -21,7 +23,9 @@ const ConfirmationModal = ({
       }}
       {...props}
     >
-      <Button onClick={onConfirm}>Yes</Button>
+      <Button onClick={onConfirm} loading={loading}>
+        Yes
+      </Button>
       <Button variant="outline" onClick={onClose}>
         No
       </Button>

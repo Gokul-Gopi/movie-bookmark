@@ -111,6 +111,25 @@ const handleGetAllMovies = async (
   }
 };
 
+const handleGetMovie = async (
+  req: AuthenticatedRequest,
+  res: NextApiResponse
+) => {
+  const movieId = req.query?.id;
+  if (!movieId) throw new Error("Please provide the movie id");
+
+  try {
+    const movie = await prisma.movie.findUnique({
+      where: {
+        id: +movieId,
+      },
+    });
+    return res.status(200).json(movie);
+  } catch (error) {
+    return res.status(400).json({ message: getErrorMessage(error) });
+  }
+};
+
 const handleDeleteMovie = async (
   req: AuthenticatedRequest,
   res: NextApiResponse
@@ -131,9 +150,14 @@ const handleDeleteMovie = async (
 };
 
 const movie = (req: AuthenticatedRequest, res: NextApiResponse) => {
-  switch (req.method) {
+  const method =
+    req.method === "GET" ? (req.query?.id ? "GETBYID" : "GET") : req.method;
+
+  switch (method) {
     case "GET":
       return handleGetAllMovies(req, res);
+    case "GETBYID":
+      return handleGetMovie(req, res);
     case "POST":
       return handleAddMovie(req, res);
     case "PUT":

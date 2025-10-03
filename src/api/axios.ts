@@ -8,36 +8,6 @@ export const api = axios.create({
   },
 });
 
-export const setAuthToken = (token?: string) => {
-  if (token) {
-    api.defaults.headers.common.Authorization = `Bearer ${token}`;
-  } else {
-    delete api.defaults.headers.common.Authorization;
-  }
-};
-
-// api.interceptors.request.use(
-//   (config) => {
-//     return config;
-//   },
-//   (error) => Promise.reject(error)
-// );
-
-// api.interceptors.response.use(
-//   (response: AxiosResponse) => response,
-//   (error: AxiosError) => {
-//     if (error.response?.status === 401) {
-//       if (typeof window !== "undefined") {
-//         window.location.href = "/signin";
-//       }
-//     }
-
-//     // toast.error(error.response?.data?.message ?? 'Unexpected error');
-
-//     return Promise.reject(error);
-//   }
-// );
-
 export const get = <T = unknown>(url: string, config?: AxiosRequestConfig) =>
   api.get<T>(url, config).then((res) => res.data);
 
