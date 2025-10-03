@@ -10,7 +10,7 @@ interface TextInputProps extends MantineTextInputProps {
   name: string;
 }
 
-const TextInput = ({ name, ...props }: TextInputProps) => {
+const ControlledTextInput = ({ name, ...props }: TextInputProps) => {
   const {
     field,
     fieldState: { error },
@@ -32,10 +32,10 @@ const TextInput = ({ name, ...props }: TextInputProps) => {
           "rounded-[0.625rem] bg-input border-none text-white placeholder:text-white px-5 h-[2.813rem]",
           classes?.input
         ),
-        error: cn("pl-1", classes?.error),
+        error: cn("pl-1 text-sm", classes?.error),
       }}
     />
   );
 };
 
-export default TextInput;
+export default ControlledTextInput;

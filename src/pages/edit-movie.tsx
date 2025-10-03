@@ -5,12 +5,12 @@ const Page = () => {
   return (
     <>
       <Head>
-        <title>Add movie</title>
+        <title>Edit movie</title>
       </Head>
 
       <div className="max-w-[100rem] w-full mb-auto mx-8">
         <h2 className="text-5xl text-left w-full font-semibold my-28">
-          Create a new movie
+          Edit movie
         </h2>
 
         <AddEditMovieForm />

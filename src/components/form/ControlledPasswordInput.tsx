@@ -10,7 +10,7 @@ interface PasswordInputProps extends MantinePasswordInputProps {
   name: string;
 }
 
-const PasswordInput = ({ name, ...props }: PasswordInputProps) => {
+const ControlledPasswordInput = ({ name, ...props }: PasswordInputProps) => {
   const classes = props.classNames as StylesRecord<
     PasswordInputFactory["stylesNames"],
     string
@@ -37,10 +37,10 @@ const PasswordInput = ({ name, ...props }: PasswordInputProps) => {
           classes?.innerInput
         ),
         section: cn("pr-5", classes?.section),
-        error: cn("pl-1", classes?.error),
+        error: cn("pl-1 text-sm", classes?.error),
       }}
     />
   );
 };
 
-export default PasswordInput;
+export default ControlledPasswordInput;

@@ -96,6 +96,11 @@ const MovieCard = ({ title, poster, description, publishedOn }: IMovieCard) => {
         centered
         opened={descModalOpen}
         onClose={() => setDescModalOpen(false)}
+        transitionProps={{
+          transition: "fade",
+          duration: 200,
+          timingFunction: "linear",
+        }}
       >
         {description ? (
           <p>{description}</p>
