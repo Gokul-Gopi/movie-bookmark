@@ -4,18 +4,20 @@ import { ActionIcon, Button } from "@mantine/core";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useState } from "react";
-import Cookies from "js-cookie";
-import { ACCESS_TOKEN, REFRESH_TOKEN } from "@/utils/constants";
 import { notifications } from "@mantine/notifications";
+import { useLogout } from "@/api/queries/auth.queries";
 
 const Header = () => {
   const router = useRouter();
+  const logout = useLogout();
   const [logoutModalOpen, setLogoutModalOpen] = useState(false);
 
   const onLogout = () => {
-    Cookies.remove(ACCESS_TOKEN);
-    Cookies.remove(REFRESH_TOKEN);
-    router.push("/signin");
+    logout.mutate(undefined, {
+      onSuccess: () => {
+        router.push("/signin");
+      },
+    });
 
     notifications.show({
       message: "Logged out",
@@ -53,6 +55,9 @@ const Header = () => {
         opened={logoutModalOpen}
         onClose={() => setLogoutModalOpen(false)}
         onConfirm={onLogout}
+        loading={logout.isPending}
+        closeOnClickOutside={!logout.isPending}
+        withCloseButton={!logout.isPending}
       />
     </section>
   );

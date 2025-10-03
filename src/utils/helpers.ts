@@ -57,7 +57,7 @@ export const signToken = (
     expiresIn,
   });
 
-const base: SerializeOptions = {
+export const baseSerializeOptions: SerializeOptions = {
   httpOnly: true,
   secure: process.env.NODE_ENV === "production",
   sameSite: "lax",
@@ -68,4 +68,4 @@ export const serializeCookie = (
   name: string,
   token: string,
   maxAge: number = ACCESS_TOKEN_EXPIRY
-) => serialize(name, token, { ...base, maxAge });
+) => serialize(name, token, { ...baseSerializeOptions, maxAge });
