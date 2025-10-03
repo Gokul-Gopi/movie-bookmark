@@ -32,13 +32,15 @@ const SignupForm = () => {
 
   return (
     <FormProvider {...form}>
-      <div className="flex flex-col gap-6 w-[18.75rem]">
+      <form
+        onSubmit={onSubmit}
+        className="flex flex-col gap-6 max-w-[18.75rem] mx-auto"
+      >
         <TextInput name="email" placeholder="Email" />
         <PasswordInput name="password" placeholder="Password" />
         <PasswordInput name="confirmPassword" placeholder="Confirm password" />
 
         <Button
-          onClick={onSubmit}
           classNames={{ label: "text-base" }}
           type="submit"
           h={54}
@@ -53,7 +55,7 @@ const SignupForm = () => {
         >
           I already have an account
         </Link>
-      </div>
+      </form>
     </FormProvider>
   );
 };

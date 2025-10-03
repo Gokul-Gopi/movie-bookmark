@@ -24,3 +24,13 @@ export const useSignin = () => {
     onError: (error: RequestError) => alertError(error),
   });
 };
+
+export const useLogout = () => {
+  return useMutation({
+    mutationFn: async () => {
+      const res = await api.post("/auth/logout");
+      return res;
+    },
+    onError: (error: RequestError) => alertError(error),
+  });
+};

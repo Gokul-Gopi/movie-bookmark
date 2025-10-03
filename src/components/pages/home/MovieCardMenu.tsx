@@ -1,6 +1,5 @@
 import { Icon } from "@iconify/react";
 import { ActionIcon, Menu } from "@mantine/core";
-import { useRouter } from "next/router";
 import React from "react";
 
 interface IMovieCardMenu {
@@ -28,7 +27,7 @@ const MovieCardMenu = ({ onEdit, onDelete }: IMovieCardMenu) => {
 
       <Menu.Dropdown>
         <Menu.Item
-          onClick={() => onEdit}
+          onClick={onEdit}
           color="primary"
           leftSection={<Icon icon="material-symbols:edit-outline" />}
         >

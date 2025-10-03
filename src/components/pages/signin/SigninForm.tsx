@@ -35,7 +35,10 @@ const SigninForm = () => {
 
   return (
     <FormProvider {...form}>
-      <div className="flex flex-col gap-6 min-w-[18.75rem]">
+      <form
+        onSubmit={onSubmit}
+        className="flex flex-col gap-6 max-w-[18.75rem] mx-auto"
+      >
         <TextInput name="email" placeholder="Email" />
         <PasswordInput name="password" placeholder="Password" />
 
@@ -56,16 +59,15 @@ const SigninForm = () => {
         />
 
         <Button
-          type="submit"
-          onClick={onSubmit}
           classNames={{ label: "text-base" }}
+          type="submit"
           h={54}
           loading={signin.isPending}
         >
           Login
         </Button>
 
-        <div className="flex items-center gap-1 justify-center">
+        <div className="flex flex-col xs:flex-row items-center gap-1 justify-center">
           <p>Don&apos;t have an account?</p>{" "}
           <Link
             href="/signup"
@@ -74,7 +76,7 @@ const SigninForm = () => {
             Sign up
           </Link>
         </div>
-      </div>
+      </form>
     </FormProvider>
   );
 };

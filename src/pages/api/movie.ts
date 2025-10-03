@@ -99,13 +99,33 @@ const handleGetAllMovies = async (
 ) => {
   const userId = +req.userId;
 
+  const page = +(req.query?.page || "1");
+  const limit = +(req.query?.limit || "8");
+
+  const skip = (page - 1) * limit;
+
   try {
-    const movies = await prisma.movie.findMany({
-      where: {
-        userId,
+    const [movies, totalItems] = await Promise.all([
+      prisma.movie.findMany({
+        where: { userId },
+        orderBy: { createdAt: "desc" },
+        skip,
+        take: limit,
+      }),
+      prisma.movie.count({ where: { userId } }),
+    ]);
+
+    const totalPages = Math.max(Math.ceil(totalItems / limit), 1);
+
+    return res.status(200).json({
+      data: movies,
+      pagination: {
+        page,
+        limit,
+        totalPages,
+        totalItems,
       },
     });
-    return res.status(200).json(movies);
   } catch (error) {
     return res.status(400).json({ message: getErrorMessage(error) });
   }

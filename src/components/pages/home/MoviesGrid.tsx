@@ -7,7 +7,7 @@ interface IMoviesGrid {
 
 const MoviesGrid = ({ data }: IMoviesGrid) => {
   return (
-    <div className="grid grid-cols-4 gap-8">
+    <div className="grid grid-cols-4 gap-8 w-full">
       {data.map((movie) => (
         <MovieCard key={movie?.id} {...movie} />
       ))}

@@ -1,5 +1,6 @@
 import { useMovie } from "@/api/queries/movie.queries";
 import AddEditMovieForm from "@/components/pages/add-movie/AddEditMovieForm";
+import { Loader } from "@mantine/core";
 import Head from "next/head";
 import { useRouter } from "next/router";
 
@@ -13,12 +14,18 @@ const Page = () => {
         <title>Edit movie</title>
       </Head>
 
-      <div className="max-w-[100rem] w-full mb-auto mx-8">
+      <div className="max-w-[100rem] w-full mb-auto mx-8 px-6">
         <h2 className="text-5xl text-left w-full font-semibold my-28">
           Edit movie
         </h2>
 
-        <AddEditMovieForm formData={movie.data} />
+        {movie.isPending ? (
+          <div className="flex justify-center w-full">
+            <Loader />
+          </div>
+        ) : (
+          <AddEditMovieForm formData={movie.data} />
+        )}
       </div>
     </>
   );

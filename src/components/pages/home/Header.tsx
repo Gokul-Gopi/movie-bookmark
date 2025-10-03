@@ -4,17 +4,29 @@ import { ActionIcon, Button } from "@mantine/core";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useState } from "react";
+import { notifications } from "@mantine/notifications";
+import { useLogout } from "@/api/queries/auth.queries";
 
 const Header = () => {
   const router = useRouter();
+  const logout = useLogout();
   const [logoutModalOpen, setLogoutModalOpen] = useState(false);
 
   const onLogout = () => {
-    router.push("/signin");
+    logout.mutate(undefined, {
+      onSuccess: () => {
+        router.push("/signin");
+      },
+    });
+
+    notifications.show({
+      message: "Logged out",
+      color: "green",
+    });
   };
 
   return (
-    <section className="flex justify-between w-full items-center max-w-[77rem] my-28">
+    <section className="flex justify-between w-full items-center my-28">
       <div className="flex gap-3 items-center">
         <h2 className="text-5xl font-semibold">My movies</h2>
         <ActionIcon
@@ -43,6 +55,9 @@ const Header = () => {
         opened={logoutModalOpen}
         onClose={() => setLogoutModalOpen(false)}
         onConfirm={onLogout}
+        loading={logout.isPending}
+        closeOnClickOutside={!logout.isPending}
+        withCloseButton={!logout.isPending}
       />
     </section>
   );

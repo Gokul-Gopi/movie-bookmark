@@ -1,16 +1,15 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { api, get } from "../axios";
-import { IMovie, RequestError } from "@/types/response";
+import { IMovie, IPaginatedMovies, RequestError } from "@/types/response";
 import { alertError } from "@/utils/webHelpers";
 
-export const useMovies = (enabled = true) =>
-  useQuery<object, RequestError, IMovie[]>({
-    queryKey: ["movies"],
+export const useMovies = (page: number, limit: number) =>
+  useQuery<object, RequestError, IPaginatedMovies>({
+    queryKey: ["movies", page, limit],
     queryFn: async () => {
-      const res = await get("/movie");
+      const res = await get(`/movie?page=${page}&limit=${limit}`);
       return res;
     },
-    enabled,
   });
 
 export const useAddMovie = () => {
