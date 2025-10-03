@@ -44,9 +44,14 @@ const MovieCard = ({
   };
 
   return (
-    <div className="px-2 pt-2 pb-4 bg-card rounded-xl group">
+    <div className="md:px-2 md:pt-2 md:pb-4 bg-card rounded-xl group">
       <div className="relative aspect-[266/400]">
-        <Image src={poster} alt="" fill={true} className="rounded-xl" />
+        <Image
+          src={poster}
+          alt=""
+          fill={true}
+          className="rounded-xl object-cover"
+        />
 
         <div className="absolute top-0 left-0 right-0 bottom-0 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 bg-gradient-to-t from-black/80 via-transparent to-black/60" />
 
@@ -75,8 +80,10 @@ const MovieCard = ({
         />
       </div>
 
-      <div className="flex flex-col text-white px-2">
-        <span className="my-4 font-medium text-xl truncate">{title}</span>
+      <div className="flex flex-col text-white pb-4 md:pb-0 px-4 md:px-2">
+        <span className="my-6 md:my-4 font-medium text-xl truncate">
+          {title}
+        </span>
 
         <span>{publishedOn}</span>
       </div>

@@ -26,9 +26,9 @@ const Header = () => {
   };
 
   return (
-    <section className="flex justify-between w-full items-center my-28">
+    <section className="flex flex-col xs:flex-row gap-4 justify-between w-full items-center my-28">
       <div className="flex gap-3 items-center">
-        <h2 className="text-5xl font-semibold">My movies</h2>
+        <h2 className="text-4xl md:text-5xl font-semibold">My movies</h2>
         <ActionIcon
           component={Link}
           href="/add-movie"
@@ -42,7 +42,10 @@ const Header = () => {
 
       <Button
         onClick={() => setLogoutModalOpen(true)}
-        classNames={{ label: "text-base", section: "text-[1.8rem] ml-3" }}
+        classNames={{
+          label: "hidden md:flex text-base",
+          section: "text-[1.8rem] ml-3",
+        }}
         rightSection={<Icon icon="tabler:logout" />}
         variant="transparent"
         color="white"
