@@ -1,4 +1,4 @@
-import { Button, createTheme } from "@mantine/core";
+import { Button, createTheme, Modal } from "@mantine/core";
 
 const theme = createTheme({
   fontFamily: "var(--font-sans)",
@@ -33,6 +33,13 @@ const theme = createTheme({
     Button: Button.extend({
       defaultProps: {
         className: "rounded-[0.625rem]",
+      },
+    }),
+    Modal: Modal.extend({
+      classNames: {
+        header: "relative",
+        title: "text-center w-[90%] mx-auto",
+        close: "absolute right-1 top-1",
       },
     }),
   },

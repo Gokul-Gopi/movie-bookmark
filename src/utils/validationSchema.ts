@@ -1,17 +1,26 @@
 import formidable from "formidable";
 import { z } from "zod";
 
-export const signupSchema = z.object({
-  email: z.email("Email is required"),
-  password: z
-    .string("Password is required")
-    .min(8, "Password must be at least 8 characters")
-    .max(64, "Password can’t be longer than 64 characters"),
-});
+export const signupSchema = z
+  .object({
+    email: z.email("Invalid email"),
+    password: z
+      .string("Password is required")
+      .regex(/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/, {
+        message:
+          "Password must contain at least 8 characters, 1 uppercase, 1 lowercase, 1 number and 1 special character",
+      }),
+    confirmPassword: z.string("Confirm your password"),
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    message: "Passwords don't match",
+    path: ["confirmPassword"],
+  });
 
 export const signinSchema = z.object({
   email: z.email("Email is required"),
   password: z.string("Password is required"),
+  rememberMe: z.boolean(),
 });
 
 export const addMovieSchema = z.object({
