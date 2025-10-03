@@ -4,6 +4,7 @@ import { prisma } from "@/utils/prisma";
 import { signupSchema } from "@/utils/validationSchema";
 import { getErrorMessage, validateBody } from "@/utils/helpers";
 import supabase from "@/utils/supabase";
+import { ACCESS_TOKEN } from "@/utils/constants";
 
 const signup = async (req: NextApiRequest, res: NextApiResponse) => {
   try {
@@ -35,12 +36,12 @@ const signup = async (req: NextApiRequest, res: NextApiResponse) => {
       password,
     });
 
-    const cookie = serialize("sb:token", sessionData.session!.access_token, {
+    const cookie = serialize(ACCESS_TOKEN, sessionData.session!.access_token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
       sameSite: "lax",
       path: "/",
-      maxAge: 60 * 60 * 24 * 30,
+      maxAge: 60 * 60,
     });
     res.setHeader("Set-Cookie", cookie);
 

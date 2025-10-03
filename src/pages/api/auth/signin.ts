@@ -3,6 +3,7 @@ import { serialize } from "cookie";
 import { signinSchema } from "@/utils/validationSchema";
 import supabase from "@/utils/supabase";
 import { getErrorMessage, validateBody } from "@/utils/helpers";
+import { ACCESS_TOKEN } from "@/utils/constants";
 
 const sigin = async (req: NextApiRequest, res: NextApiResponse) => {
   try {
@@ -20,7 +21,7 @@ const sigin = async (req: NextApiRequest, res: NextApiResponse) => {
     if (!token)
       throw new Error("Authentication failed. No session token returned.");
 
-    const cookie = serialize("sb:token", token, {
+    const cookie = serialize(ACCESS_TOKEN, token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
       sameSite: "lax",
