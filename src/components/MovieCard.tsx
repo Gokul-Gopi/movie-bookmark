@@ -3,7 +3,6 @@ import Image from "next/image";
 import { Icon } from "@iconify/react";
 import { useState } from "react";
 import ConfirmationModal from "./ConfirmationModal";
-import { p } from "framer-motion/client";
 
 interface IMovieCard {
   title: string;
