@@ -8,7 +8,7 @@ const Pagination = ({ ...props }: PaginationProps) => {
     <MantinePaginatiobn
       {...props}
       classNames={{
-        root: "my-40",
+        root: "my-32",
         control:
           "w-auto text-white bg-card font-bold border-none first:bg-transparent last:bg-transparent active:bg-white data-[active=true]:bg-primary active:text-card",
       }}

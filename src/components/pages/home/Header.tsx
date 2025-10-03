@@ -4,17 +4,27 @@ import { ActionIcon, Button } from "@mantine/core";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useState } from "react";
+import Cookies from "js-cookie";
+import { ACCESS_TOKEN, REFRESH_TOKEN } from "@/utils/constants";
+import { notifications } from "@mantine/notifications";
 
 const Header = () => {
   const router = useRouter();
   const [logoutModalOpen, setLogoutModalOpen] = useState(false);
 
   const onLogout = () => {
+    Cookies.remove(ACCESS_TOKEN);
+    Cookies.remove(REFRESH_TOKEN);
     router.push("/signin");
+
+    notifications.show({
+      message: "Logged out",
+      color: "green",
+    });
   };
 
   return (
-    <section className="flex justify-between w-full items-center max-w-[77rem] my-28">
+    <section className="flex justify-between w-full items-center my-28">
       <div className="flex gap-3 items-center">
         <h2 className="text-5xl font-semibold">My movies</h2>
         <ActionIcon

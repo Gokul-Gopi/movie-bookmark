@@ -18,11 +18,11 @@ const Page = () => {
       {movies.isPending ? (
         <Loader />
       ) : movies?.data?.length ? (
-        <>
+        <div className="flex flex-col items-center max-w-[90rem] w-full">
           <Header />
           <MoviesGrid data={movies.data} />
           <Pagination value={2} total={5} />
-        </>
+        </div>
       ) : (
         <div className="flex flex-col gap-8 items-center justify-center">
           <h2 className="text-5xl font-semibold text-center">

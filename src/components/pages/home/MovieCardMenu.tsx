@@ -1,6 +1,5 @@
 import { Icon } from "@iconify/react";
 import { ActionIcon, Menu } from "@mantine/core";
-import { useRouter } from "next/router";
 import React from "react";
 
 interface IMovieCardMenu {

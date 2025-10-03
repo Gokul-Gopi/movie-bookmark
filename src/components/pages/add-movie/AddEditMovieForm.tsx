@@ -30,7 +30,7 @@ const AddEditMovieForm = ({ formData }: IAddEditMovieForm) => {
   const editMode = !!formData;
 
   const schema = useMemo(
-    () => (!formData ? addMovieSchemaWithFile : editMovieSchema),
+    () => (!editMode ? addMovieSchemaWithFile : editMovieSchema),
     [editMode]
   );
 
@@ -42,6 +42,7 @@ const AddEditMovieForm = ({ formData }: IAddEditMovieForm) => {
       poster: formData.poster,
       publishedOn: formData.publishedOn,
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [editMode]);
 
   const form = useForm<z.infer<typeof schema>>({
