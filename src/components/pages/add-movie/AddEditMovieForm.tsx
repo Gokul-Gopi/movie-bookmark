@@ -1,24 +1,80 @@
+import { useAddMovie, useEditMovie } from "@/api/queries/movie.queries";
 import ControlledTextarea from "@/components/form/ControlledTextarea";
 import ControlledTextInput from "@/components/form/ControlledTextInput";
 import ControlledYearPickerInput from "@/components/form/ControlledYearPickerInput";
-import { addMovieSchema } from "@/utils/validationSchema";
+import { IMovie } from "@/types/response";
+import {
+  addMovieSchemaWithFile,
+  editMovieSchema,
+} from "@/utils/validationSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Icon } from "@iconify/react";
 import { Button } from "@mantine/core";
 import { Dropzone, IMAGE_MIME_TYPE } from "@mantine/dropzone";
+import { notifications } from "@mantine/notifications";
+import Image from "next/image";
 import { useRouter } from "next/router";
+import { useEffect, useMemo } from "react";
 import { Controller, FormProvider, useForm } from "react-hook-form";
 import { z } from "zod";
 
-const AddEditMovieForm = () => {
-  const router = useRouter();
+interface IAddEditMovieForm {
+  formData?: IMovie;
+}
 
-  const form = useForm<z.infer<typeof addMovieSchema>>({
-    resolver: zodResolver(addMovieSchema),
+const AddEditMovieForm = ({ formData }: IAddEditMovieForm) => {
+  const router = useRouter();
+  const addMovie = useAddMovie();
+  const editMovie = useEditMovie();
+
+  const editMode = !!formData;
+
+  const schema = useMemo(
+    () => (!formData ? addMovieSchemaWithFile : editMovieSchema),
+    [editMode]
+  );
+
+  useEffect(() => {
+    if (!editMode) return;
+    form.reset({
+      title: formData.title,
+      description: formData.description,
+      poster: formData.poster,
+      publishedOn: formData.publishedOn,
+    });
+  }, [editMode]);
+
+  const form = useForm<z.infer<typeof schema>>({
+    resolver: zodResolver(schema),
   });
 
-  const onSubmit = form.handleSubmit((_data) => {
-    router.push("/");
+  const onSubmit = form.handleSubmit((data) => {
+    if (editMode) {
+      editMovie.mutate(
+        { ...data, movieId: formData.id },
+        {
+          onSuccess: () => {
+            notifications.show({
+              message: "Movie edited successfully!",
+              color: "green",
+            });
+            router.push("/");
+          },
+        }
+      );
+
+      return;
+    }
+
+    addMovie.mutate(data, {
+      onSuccess: () => {
+        notifications.show({
+          message: "Movie added successfully!",
+          color: "green",
+        });
+        router.push("/");
+      },
+    });
   });
 
   const onCancel = () => {
@@ -27,11 +83,11 @@ const AddEditMovieForm = () => {
 
   return (
     <FormProvider {...form}>
-      <div className="flex gap-32 mb-20">
+      <form onSubmit={onSubmit} className="flex gap-32 mb-20">
         <Controller
           name="poster"
           control={form.control}
-          render={({ field: { onChange }, fieldState: { error } }) => (
+          render={({ field: { value, onChange }, fieldState: { error } }) => (
             <div className="flex-1 max-w-[30rem] h-[31.5rem]">
               <Dropzone
                 onDrop={(files) => onChange(files[0])}
@@ -43,11 +99,37 @@ const AddEditMovieForm = () => {
                 accept={IMAGE_MIME_TYPE}
               >
                 <div className="flex flex-col gap-2 items-center text-white">
-                  <Icon icon="tabler:download" className="text-2xl" />
-                  <p>Drop an image here</p>
-                  <p className="text-sm text-gray-400">Maximum size: 5 MB</p>
+                  {value ? (
+                    editMode ? (
+                      <div className="relative aspect-[9/16] w-[10rem]">
+                        <Image
+                          src={value as string}
+                          alt="poster"
+                          fill
+                          className="object-cover rounded-[0.625rem]"
+                        />
+                      </div>
+                    ) : (
+                      <>
+                        <Icon
+                          icon="tabler:circle-check"
+                          className="text-2xl text-primary"
+                        />
+                        <p className="text-center">{(value as File)?.name}</p>
+                      </>
+                    )
+                  ) : (
+                    <>
+                      <Icon icon="tabler:download" className="text-2xl" />
+                      <p>Drop an image here</p>
+                      <p className="text-sm text-gray-400">
+                        Maximum size: 5 MB
+                      </p>
+                    </>
+                  )}
                 </div>
               </Dropzone>
+
               {error?.message && (
                 <p className="text-sm mt-1 text-red-500">{error.message}</p>
               )}
@@ -86,14 +168,14 @@ const AddEditMovieForm = () => {
                 root: "w-full max-w-[10.5rem] h-[3.5rem]",
                 label: "text-base",
               }}
-              onClick={onSubmit}
               type="submit"
+              loading={addMovie.isPending || editMovie.isPending}
             >
               Submit
             </Button>
           </div>
         </div>
-      </div>
+      </form>
     </FormProvider>
   );
 };

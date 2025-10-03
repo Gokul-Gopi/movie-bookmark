@@ -2,18 +2,47 @@ import { ActionIcon, Button, Menu, Modal } from "@mantine/core";
 import Image from "next/image";
 import { Icon } from "@iconify/react";
 import { useState } from "react";
-import ConfirmationModal from "./ConfirmationModal";
+import ConfirmationModal from "../../ConfirmationModal";
+import { useRouter } from "next/router";
+import { useDeleteMovie } from "@/api/queries/movie.queries";
+import MovieCardMenu from "./MovieCardMenu";
+import { useQueryClient } from "@tanstack/react-query";
+import { notifications } from "@mantine/notifications";
 
 interface IMovieCard {
+  id: string;
   title: string;
   description?: string;
   publishedOn: string;
   poster: string;
 }
 
-const MovieCard = ({ title, poster, description, publishedOn }: IMovieCard) => {
+const MovieCard = ({
+  id,
+  title,
+  poster,
+  description,
+  publishedOn,
+}: IMovieCard) => {
+  const router = useRouter();
+  const deleteMovie = useDeleteMovie();
+  const queryClient = useQueryClient();
+
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [descModalOpen, setDescModalOpen] = useState(false);
+
+  const onDelete = () => {
+    deleteMovie.mutate(id, {
+      onSuccess: () => {
+        queryClient.invalidateQueries({ queryKey: ["movies"] });
+        notifications.show({
+          message: "Movie deleted successfully!",
+          color: "green",
+        });
+        setDeleteModalOpen(false);
+      },
+    });
+  };
 
   return (
     <div className="px-2 pt-2 pb-4 bg-card rounded-xl group max-w-[17.625rem]">
@@ -34,39 +63,17 @@ const MovieCard = ({ title, poster, description, publishedOn }: IMovieCard) => {
           </Button>
         </div>
 
-        <Menu
-          classNames={{ dropdown: "bg-background" }}
-          position="bottom-end"
-          shadow="md"
-          width={150}
-        >
-          <Menu.Target>
-            <ActionIcon
-              className="opacity-0 group-hover:opacity-100 absolute top-2 right-1 transition-opacity duration-500"
-              color="white"
-              variant="transparent"
-            >
-              <Icon icon="tabler:dots-vertical" />
-            </ActionIcon>
-          </Menu.Target>
-
-          <Menu.Dropdown>
-            <Menu.Item
-              color="primary"
-              leftSection={<Icon icon="material-symbols:edit-outline" />}
-            >
-              Edit
-            </Menu.Item>
-            <Menu.Divider />
-            <Menu.Item
-              onClick={() => setDeleteModalOpen(true)}
-              color="red"
-              leftSection={<Icon icon="material-symbols:delete-outline" />}
-            >
-              Delete
-            </Menu.Item>
-          </Menu.Dropdown>
-        </Menu>
+        <MovieCardMenu
+          onEdit={() => {
+            router.push({
+              pathname: "/edit-movie",
+              query: {
+                id,
+              },
+            });
+          }}
+          onDelete={() => setDeleteModalOpen(true)}
+        />
       </div>
 
       <div className="flex flex-col text-white px-2">
@@ -79,7 +86,10 @@ const MovieCard = ({ title, poster, description, publishedOn }: IMovieCard) => {
         title="Are you sure you want to delete this movie?"
         opened={deleteModalOpen}
         onClose={() => setDeleteModalOpen(false)}
-        onConfirm={() => setDeleteModalOpen(false)}
+        onConfirm={onDelete}
+        loading={deleteMovie.isPending}
+        closeOnClickOutside={!deleteMovie.isPending}
+        withCloseButton={!deleteMovie.isPaused}
       />
 
       <Modal

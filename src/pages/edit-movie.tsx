@@ -1,7 +1,12 @@
+import { useMovie } from "@/api/queries/movie.queries";
 import AddEditMovieForm from "@/components/pages/add-movie/AddEditMovieForm";
 import Head from "next/head";
+import { useRouter } from "next/router";
 
 const Page = () => {
+  const router = useRouter();
+  const movie = useMovie(router.query?.id as string);
+
   return (
     <>
       <Head>
@@ -13,7 +18,7 @@ const Page = () => {
           Edit movie
         </h2>
 
-        <AddEditMovieForm />
+        <AddEditMovieForm formData={movie.data} />
       </div>
     </>
   );
