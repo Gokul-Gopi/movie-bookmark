@@ -18,7 +18,7 @@ export const authRoute =
       const token = req.cookies[ACCESS_TOKEN];
       if (!token) throw new Error("Missing access-token");
 
-      const payload = jwt.verify(token, process.env.JWT_ACCESS_SECRET!) as {
+      const payload = jwt.verify(token, process.env.JWT_SECRET_KEY!) as {
         sub: string;
       };
 

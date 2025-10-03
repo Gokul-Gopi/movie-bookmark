@@ -35,14 +35,14 @@ const sigin = async (req: NextApiRequest, res: NextApiResponse) => {
 
     if (!rememberMe) {
       res.setHeader("Set-Cookie", serializeCookie(ACCESS_TOKEN, accessToken));
+    } else {
+      const refreshToken = signToken(user.id, REFRESH_TOKEN_EXPIRY);
+
+      res.setHeader("Set-Cookie", [
+        serializeCookie(ACCESS_TOKEN, accessToken),
+        serializeCookie(REFRESH_TOKEN, refreshToken, REFRESH_TOKEN_EXPIRY),
+      ]);
     }
-
-    const refreshToken = signToken(user.id, REFRESH_TOKEN_EXPIRY);
-
-    res.setHeader("Set-Cookie", [
-      serializeCookie(ACCESS_TOKEN, accessToken),
-      serializeCookie(REFRESH_TOKEN, refreshToken, REFRESH_TOKEN_EXPIRY),
-    ]);
 
     return res.status(200).json({ message: "Logged in successfully" });
   } catch (error) {

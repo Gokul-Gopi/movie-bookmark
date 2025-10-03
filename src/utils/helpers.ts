@@ -53,7 +53,7 @@ export const signToken = (
   sub: number | string,
   expiresIn: number = ACCESS_TOKEN_EXPIRY
 ) =>
-  jwt.sign({ sub }, process.env.JWT_ACCESS_SECRET!, {
+  jwt.sign({ sub }, process.env.JWT_SECRET_KEY!, {
     expiresIn,
   });
 
