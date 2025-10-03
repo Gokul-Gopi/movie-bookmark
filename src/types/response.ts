@@ -17,3 +17,15 @@ interface AxiosErrorResponse extends AxiosResponse {
 export interface RequestError extends AxiosError {
   response: AxiosErrorResponse;
 }
+
+export interface IPagination {
+  page: number;
+  limit: number;
+  totalPages: number;
+  totalItems: number;
+}
+
+export interface IPaginatedMovies {
+  data: IMovie[];
+  pagination: IPagination;
+}
