@@ -16,9 +16,8 @@ const ConfirmationModal = ({
       classNames={{
         body: "flex gap-3 justify-center",
         content: "bg-background",
-        header: "bg-background relative",
-        title: "text-center w-[90%] mx-auto",
-        close: "absolute right-1 top-1",
+        header: "bg-background",
+        close: "text-slate-400 hover:bg-transparent",
       }}
       {...props}
     >

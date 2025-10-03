@@ -1,8 +1,9 @@
-import { ActionIcon, Button, Menu } from "@mantine/core";
+import { ActionIcon, Button, Menu, Modal } from "@mantine/core";
 import Image from "next/image";
 import { Icon } from "@iconify/react";
 import { useState } from "react";
 import ConfirmationModal from "./ConfirmationModal";
+import { p } from "framer-motion/client";
 
 interface IMovieCard {
   title: string;
@@ -11,8 +12,9 @@ interface IMovieCard {
   poster: string;
 }
 
-const MovieCard = ({ title, poster, publishedOn }: IMovieCard) => {
+const MovieCard = ({ title, poster, description, publishedOn }: IMovieCard) => {
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
+  const [descModalOpen, setDescModalOpen] = useState(false);
 
   return (
     <div className="px-2 pt-2 pb-4 bg-card rounded-xl group max-w-[17.625rem]">
@@ -23,6 +25,7 @@ const MovieCard = ({ title, poster, publishedOn }: IMovieCard) => {
 
         <div className="opacity-0 group-hover:opacity-100 gap-2 absolute bottom-0 right-0 left-0 p-4 text-sm transition-opacity duration-500">
           <Button
+            onClick={() => setDescModalOpen(true)}
             className="w-full text-sm"
             color="white"
             size="compact-md"
@@ -79,6 +82,27 @@ const MovieCard = ({ title, poster, publishedOn }: IMovieCard) => {
         onClose={() => setDeleteModalOpen(false)}
         onConfirm={() => setDeleteModalOpen(false)}
       />
+
+      <Modal
+        classNames={{
+          header: "bg-background",
+          content: "bg-background p-4",
+          title:
+            "text-primary underline underline-offset-4 font-semibold text-lg mb-2",
+          close: "text-slate-400 hover:bg-transparent",
+        }}
+        size={600}
+        title={title}
+        centered
+        opened={descModalOpen}
+        onClose={() => setDescModalOpen(false)}
+      >
+        {description ? (
+          <p>{description}</p>
+        ) : (
+          <p className="text-slate-400 text-center">No info added..</p>
+        )}
+      </Modal>
     </div>
   );
 };
