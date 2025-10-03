@@ -1,7 +1,7 @@
 import { Button, Modal } from "@mantine/core";
 import Image from "next/image";
 import { useState } from "react";
-import ConfirmationModal from "../../ConfirmationModal";
+import ConfirmationModal from "@/components/ConfirmationModal";
 import { useRouter } from "next/router";
 import { useDeleteMovie } from "@/api/queries/movie.queries";
 import MovieCardMenu from "./MovieCardMenu";
@@ -48,7 +48,7 @@ const MovieCard = ({
       <div className="relative aspect-[266/400]">
         <Image src={poster} alt="" fill={true} className="rounded-xl" />
 
-        <div className="absolute top-0 left-0 right-0 bottom-0 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 bg-gradient-to-t from-black/70 via-transparent to-black/60" />
+        <div className="absolute top-0 left-0 right-0 bottom-0 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 bg-gradient-to-t from-black/80 via-transparent to-black/60" />
 
         <div className="opacity-0 group-hover:opacity-100 gap-2 absolute bottom-0 right-0 left-0 p-4 text-sm transition-opacity duration-500">
           <Button

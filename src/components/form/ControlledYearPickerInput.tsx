@@ -27,7 +27,6 @@ const ControlledYearPickerInput = ({
 
   return (
     <MantineYearPickerInput
-      valueFormat="YYYY"
       popoverProps={{ classNames: { dropdown: "bg-input text-white" } }}
       {...props}
       {...field}

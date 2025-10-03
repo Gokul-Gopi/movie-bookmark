@@ -1,10 +1,5 @@
 import SignupForm from "@/components/pages/signup/SignupForm";
-import { withPageAuth } from "@/utils/withPageAuth";
 import Head from "next/head";
-
-export const getServerSideProps = withPageAuth(async (_ctx, user) => {
-  return { props: {} };
-});
 
 const Page = () => {
   return (

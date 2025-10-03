@@ -52,7 +52,11 @@ const AddEditMovieForm = ({ formData }: IAddEditMovieForm) => {
   const onSubmit = form.handleSubmit((data) => {
     if (editMode) {
       editMovie.mutate(
-        { ...data, movieId: formData.id },
+        {
+          ...data,
+          publishedOn: new Date(data.publishedOn as string).getFullYear(),
+          movieId: formData.id,
+        },
         {
           onSuccess: () => {
             notifications.show({
@@ -63,19 +67,24 @@ const AddEditMovieForm = ({ formData }: IAddEditMovieForm) => {
           },
         }
       );
-
       return;
     }
 
-    addMovie.mutate(data, {
-      onSuccess: () => {
-        notifications.show({
-          message: "Movie added successfully!",
-          color: "green",
-        });
-        router.push("/");
+    addMovie.mutate(
+      {
+        ...data,
+        publishedOn: new Date(data.publishedOn as string).getFullYear(),
       },
-    });
+      {
+        onSuccess: () => {
+          notifications.show({
+            message: "Movie added successfully!",
+            color: "green",
+          });
+          router.push("/");
+        },
+      }
+    );
   });
 
   return (
@@ -105,7 +114,7 @@ const AddEditMovieForm = ({ formData }: IAddEditMovieForm) => {
               >
                 <div className="flex flex-col gap-2 items-center text-white">
                   {value ? (
-                    editMode ? (
+                    typeof value === "string" ? (
                       <div className="relative aspect-[9/16] w-[10rem]">
                         <Image
                           src={value as string}
@@ -116,11 +125,14 @@ const AddEditMovieForm = ({ formData }: IAddEditMovieForm) => {
                       </div>
                     ) : (
                       <>
-                        <Icon
-                          icon="tabler:circle-check"
-                          className="text-2xl text-primary"
-                        />
-                        <p className="text-center">{(value as File)?.name}</p>
+                        <div className="relative aspect-[9/16] w-[10rem]">
+                          <Image
+                            src={URL.createObjectURL(value as File)}
+                            alt="poster"
+                            fill
+                            className="object-cover rounded-[0.625rem]"
+                          />
+                        </div>
                       </>
                     )
                   ) : (

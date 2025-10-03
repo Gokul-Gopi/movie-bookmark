@@ -21,6 +21,7 @@ const Page = () => {
         shallow: true,
       });
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [router.isReady, router.query?.page]);
 
   return (

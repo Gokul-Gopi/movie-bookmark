@@ -27,7 +27,7 @@ const MovieCardMenu = ({ onEdit, onDelete }: IMovieCardMenu) => {
 
       <Menu.Dropdown>
         <Menu.Item
-          onClick={() => onEdit}
+          onClick={onEdit}
           color="primary"
           leftSection={<Icon icon="material-symbols:edit-outline" />}
         >
