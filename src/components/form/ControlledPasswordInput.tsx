@@ -1,10 +1,18 @@
 import { cn } from "@/utils/webHelpers";
+import { Icon } from "@iconify/react";
 import {
   PasswordInput as MantinePasswordInput,
   PasswordInputProps as MantinePasswordInputProps,
 } from "@mantine/core";
 import type { StylesRecord, PasswordInputFactory } from "@mantine/core";
 import { useController } from "react-hook-form";
+
+const VisibilityToggleIcon = ({ reveal }: { reveal: boolean }) =>
+  reveal ? (
+    <Icon icon="tabler:eye" className="text-lg" />
+  ) : (
+    <Icon icon="tabler:eye-off" className="text-lg" />
+  );
 
 interface PasswordInputProps extends MantinePasswordInputProps {
   name: string;
@@ -23,6 +31,7 @@ const ControlledPasswordInput = ({ name, ...props }: PasswordInputProps) => {
 
   return (
     <MantinePasswordInput
+      visibilityToggleIcon={VisibilityToggleIcon}
       {...props}
       {...field}
       error={error?.message}

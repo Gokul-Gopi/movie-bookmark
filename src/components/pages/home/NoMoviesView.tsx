@@ -3,8 +3,8 @@ import Link from "next/link";
 
 const NoMoviesView = () => {
   return (
-    <div className="flex flex-col gap-8 items-center justify-center">
-      <h2 className="text-5xl font-semibold text-center">
+    <div className="flex flex-col text-balance gap-12 md:gap-8 items-center justify-center px-6">
+      <h2 className="text-4xl md:text-5xl font-semibold text-center">
         Your movie list is empty
       </h2>
       <Button

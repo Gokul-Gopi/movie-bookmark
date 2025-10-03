@@ -32,7 +32,10 @@ const SignupForm = () => {
 
   return (
     <FormProvider {...form}>
-      <form onSubmit={onSubmit} className="flex flex-col gap-6 w-[18.75rem]">
+      <form
+        onSubmit={onSubmit}
+        className="flex flex-col gap-6 max-w-[18.75rem] mx-auto"
+      >
         <TextInput name="email" placeholder="Email" />
         <PasswordInput name="password" placeholder="Password" />
         <PasswordInput name="confirmPassword" placeholder="Confirm password" />

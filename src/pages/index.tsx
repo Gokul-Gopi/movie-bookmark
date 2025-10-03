@@ -32,7 +32,7 @@ const Page = () => {
       {isPending ? (
         <Loader />
       ) : data?.data?.length ? (
-        <div className="flex flex-col items-center max-w-[90rem] w-full">
+        <div className="flex flex-col items-center max-w-[90rem] w-full px-4">
           <Header />
           <MoviesGrid data={data?.data ?? []} />
           <Pagination
