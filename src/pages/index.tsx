@@ -7,6 +7,13 @@ import { useMovies } from "@/api/queries/movie.queries";
 import { useEffect } from "react";
 import { useRouter } from "next/router";
 import NoMoviesView from "@/components/pages/home/NoMoviesView";
+import { withPageAuth } from "@/utils/withPageAuth";
+
+export const getServerSideProps = withPageAuth(async () => {
+  return {
+    props: {},
+  };
+});
 
 const Page = () => {
   const router = useRouter();
