@@ -1,30 +1,31 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import supabase from "./supabase";
+import jwt from "jsonwebtoken";
+import { ACCESS_TOKEN } from "./constants";
 
 export interface AuthenticatedRequest extends NextApiRequest {
-  user: { id: string; email?: string };
+  userId: string;
 }
 
-const authRoute = (
-  handler: (
-    req: AuthenticatedRequest,
-    res: NextApiResponse
-  ) => Promise<void> | NextApiResponse
-) => {
-  return async (req: AuthenticatedRequest, res: NextApiResponse) => {
-    const {
-      data: { user },
-    } = await supabase.auth.getUser();
+export const authRoute =
+  (
+    handler: (
+      req: AuthenticatedRequest,
+      res: NextApiResponse
+    ) => NextApiResponse<unknown> | Promise<void>
+  ) =>
+  async (req: AuthenticatedRequest, res: NextApiResponse) => {
+    try {
+      const token = req.cookies[ACCESS_TOKEN];
+      if (!token) throw new Error("Missing access-token");
 
-    if (!user) return res.status(401).json({ message: "Unauthorized" });
+      const payload = jwt.verify(token, process.env.JWT_ACCESS_SECRET!) as {
+        sub: string;
+      };
 
-    (req as AuthenticatedRequest).user = {
-      id: user.id,
-      email: user.email,
-    };
+      (req as AuthenticatedRequest).userId = payload.sub;
 
-    return handler(req, res);
+      return handler(req, res);
+    } catch {
+      return res.status(401).json({ message: "Unauthorized" });
+    }
   };
-};
-
-export default authRoute;

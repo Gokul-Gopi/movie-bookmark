@@ -3,7 +3,7 @@ import { getErrorMessage, uploadImage, validateBody } from "@/utils/helpers";
 import { addMovieSchema, editMovieSchema } from "@/utils/validationSchema";
 import formidable from "formidable";
 import { prisma } from "@/utils/prisma";
-import authRoute, { AuthenticatedRequest } from "@/utils/authRoute";
+import { AuthenticatedRequest, authRoute } from "@/utils/authRoute";
 
 export const config = {
   api: { bodyParser: false }, // formidable will handle multipart form
@@ -38,16 +38,14 @@ const handleAddMovie = async (
           description,
           publishedOn,
           poster: url as string,
-          userId: req.user.id,
+          userId: +req.userId,
         },
       });
 
       return res.status(201).json(movie);
     }
 
-    return res
-      .status(400)
-      .json({ message: "Something went wronog. Please try again later" });
+    throw new Error("Something went wronog. Please try again later");
   } catch (error) {
     return res.status(400).json({ message: getErrorMessage(error) });
   }
@@ -99,7 +97,7 @@ const handleGetAllMovies = async (
   req: AuthenticatedRequest,
   res: NextApiResponse
 ) => {
-  const userId = req.user.id;
+  const userId = +req.userId;
 
   try {
     const movies = await prisma.movie.findMany({
