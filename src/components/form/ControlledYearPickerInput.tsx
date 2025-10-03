@@ -30,6 +30,7 @@ const ControlledYearPickerInput = ({
       popoverProps={{ classNames: { dropdown: "bg-input text-white" } }}
       {...props}
       {...field}
+      color="primary"
       error={error?.message}
       classNames={{
         ...classes,
@@ -39,6 +40,14 @@ const ControlledYearPickerInput = ({
         ),
         placeholder: cn("text-white", classes?.placeholder),
         error: cn("pl-1 text-sm", classes?.error),
+        calendarHeaderControl: cn(
+          "hover:bg-primary",
+          classes?.calendarHeaderControl
+        ),
+        yearsListControl: cn(
+          "hover:bg-primary/50 text-white disabled:text-slate-400",
+          classes?.calendarHeaderControl
+        ),
       }}
     />
   );
