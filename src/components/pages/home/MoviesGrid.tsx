@@ -1,4 +1,5 @@
 import MovieCard from "@/components/MovieCard";
+import { IMovie } from "@/types/response";
 
 interface IMoviesGrid {
   data: IMovie[];

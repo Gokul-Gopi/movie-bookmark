@@ -7,19 +7,21 @@ datasource db {
   url      = env("DIRECT_URL")
 }
 
-model Profile {
-  id     String  @id @db.Uuid
-  movies Movie[]
+model User {
+  id       Int     @id @default(autoincrement())
+  email    String  @unique
+  passowrd String
+  movies   Movie[]
 }
 
 model Movie {
   id          Int      @id @default(autoincrement())
-  userId      String   @db.Uuid
   title       String   @db.VarChar(120)
   description String?  @db.VarChar(800)
   publishedOn String
   poster      String
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
-  user        Profile  @relation(fields: [userId], references: [id])
+  userId      Int
+  user        User     @relation(fields: [userId], references: [id])
 }
