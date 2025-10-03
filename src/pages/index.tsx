@@ -2,22 +2,25 @@ import Head from "next/head";
 import Header from "@/components/pages/home/Header";
 import MoviesGrid from "@/components/pages/home/MoviesGrid";
 import Pagination from "@/components/Pagination";
-import { Button } from "@mantine/core";
+import { Button, Loader } from "@mantine/core";
 import Link from "next/link";
-
-const movies = [];
+import { useMovies } from "@/api/queries/movie.queries";
 
 const Page = () => {
+  const movies = useMovies();
+
   return (
     <>
       <Head>
         <title>My Movies</title>
       </Head>
 
-      {movies.length ? (
+      {movies.isPending ? (
+        <Loader />
+      ) : movies?.data?.length ? (
         <>
           <Header />
-          <MoviesGrid data={[]} />
+          <MoviesGrid data={movies.data} />
           <Pagination value={2} total={5} />
         </>
       ) : (

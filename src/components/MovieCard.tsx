@@ -20,7 +20,7 @@ const MovieCard = ({ title, poster, description, publishedOn }: IMovieCard) => {
       <div className="relative min-h-[25rem]">
         <Image src={poster} alt="" fill={true} className="rounded-xl" />
 
-        <div className="absolute top-0 left-0 right-0 bottom-0 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 bg-gradient-to-t from-black/50 to-transparent" />
+        <div className="absolute top-0 left-0 right-0 bottom-0 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 bg-gradient-to-t from-black/50 via-transparent to-black/50" />
 
         <div className="opacity-0 group-hover:opacity-100 gap-2 absolute bottom-0 right-0 left-0 p-4 text-sm transition-opacity duration-500">
           <Button
@@ -84,8 +84,8 @@ const MovieCard = ({ title, poster, description, publishedOn }: IMovieCard) => {
 
       <Modal
         classNames={{
-          header: "bg-background",
-          content: "bg-background p-4",
+          header: "bg-black",
+          content: "bg-black p-4",
           title:
             "text-primary underline underline-offset-4 font-semibold text-lg mb-2",
           close: "text-slate-400 hover:bg-transparent",
@@ -93,6 +93,7 @@ const MovieCard = ({ title, poster, description, publishedOn }: IMovieCard) => {
         size={600}
         title={title}
         centered
+        opacity={0.95}
         opened={descModalOpen}
         onClose={() => setDescModalOpen(false)}
         transitionProps={{
